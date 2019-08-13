@@ -6,13 +6,14 @@ const hubsRouter = require('./hubs/hubs-router.js');
 
 const server = express();
 
+// Built in Middleware
 server.use(express.json());
 
 // Third party middleware
 server.use(helmet())
 server.use(logger('dev'))
 
-// Custom Middleware
+// ------- Custom Middleware --------
 // server.use(methodLogger)
 server.use(addName)
 // server.use(lockout)
@@ -58,5 +59,11 @@ function noPass(req, res, next) {
     next()
   }
 }
+
+
+//Error Handling Middleware
+server.use((error, req, res, next) => {
+  res.status(400).json({message: 'Bad Panda!', error})
+})
 
 module.exports = server;
